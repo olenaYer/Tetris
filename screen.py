@@ -49,7 +49,6 @@ class Screen:
         self.screen.blit(line, line_rect)
 
     def draw_figure(self):
-
         for rect in self.figure:
             pygame.draw.rect(self.screen, self.color_figure, rect)
 
@@ -67,5 +66,33 @@ class Screen:
                    pygame.Rect(self.width // 2 - self.size_figure, self.height * 0.2 + self.size_figure,
                                self.size_figure, self.size_figure)]
 
+        t_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                   pygame.Rect(self.width // 2 - self.size_figure, self.height * 0.2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2 + self.size_figure, self.height * 0.2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                               self.size_figure)]
+
+        i_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure * 2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure * 3, self.size_figure,
+                               self.size_figure)]
+
+        sq_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                    pygame.Rect(self.width // 2 + self.size_figure, self.height * 0.2, self.size_figure,
+                                self.size_figure),
+                    pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                                self.size_figure),
+                    pygame.Rect(self.width // 2 + self.size_figure, self.height * 0.2 + self.size_figure,
+                                self.size_figure,
+                                self.size_figure)]
+
         figures.append(s_block)
+        figures.append(t_block)
+        figures.append(i_block)
+        figures.append(sq_block)
         return figures
