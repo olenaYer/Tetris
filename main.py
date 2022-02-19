@@ -18,7 +18,7 @@ class Main:
                     pygame.quit()
                     break
 
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYUP:
                     game.move(screen.figure, event.key)
 
             game.move(screen.figure)
