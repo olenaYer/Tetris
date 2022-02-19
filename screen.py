@@ -52,7 +52,6 @@ class Screen:
         for rect in self.figure:
             pygame.draw.rect(self.screen, self.color_figure, rect)
 
-
     def draw_field(self):
         rect = pygame.Rect(0, self.height * 0.2, self.width, self.height * 0.8)
         pygame.draw.rect(self.screen, self.border_color, rect, 1)
