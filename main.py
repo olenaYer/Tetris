@@ -12,11 +12,17 @@ class Main:
         while True:
             screen.draw()
             time.sleep(0.2)
-            game.move(screen.figure)
-            
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     break
 
+                if event.type == pygame.KEYDOWN:
+                    game.move(screen.figure, event.key)
+
+                else:
+                    game.move(screen.figure)
+
 Main()
+
