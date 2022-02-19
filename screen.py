@@ -41,7 +41,7 @@ class Screen:
         score_rect = score.get_rect()
         score_rect.center = (self.width // 4, (self.height * 0.1) // 2)
 
-        line = font.render(f'Line: {line}', True, (255, 255, 255), self.bg)
+        line = font.render(f'LINE: {line}', True, (255, 255, 255), self.bg)
         line_rect = score.get_rect()
         line_rect.center = (self.width // 4, self.height * 0.3 // 2)
 
@@ -49,7 +49,6 @@ class Screen:
         self.screen.blit(line, line_rect)
 
     def draw_figure(self):
-
         for rect in self.figure:
             pygame.draw.rect(self.screen, self.color_figure, rect)
 
@@ -66,6 +65,57 @@ class Screen:
                                self.size_figure),
                    pygame.Rect(self.width // 2 - self.size_figure, self.height * 0.2 + self.size_figure,
                                self.size_figure, self.size_figure)]
+        z_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                   pygame.Rect(self.width // 2 - self.size_figure, self.height * 0.2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2 + self.size_figure, self.height * 0.2 + self.size_figure,
+                               self.size_figure, self.size_figure)]
+        l_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                   pygame.Rect(self.width // 2 + self.size_figure, self.height * 0.2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2 + 2 * self.size_figure, self.height * 0.2,
+                               self.size_figure, self.size_figure)]
+        j_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                   pygame.Rect(self.width // 2 - self.size_figure, self.height * 0.2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2 - 2 * self.size_figure, self.height * 0.2,
+                               self.size_figure, self.size_figure)]
+        t_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                   pygame.Rect(self.width // 2 - self.size_figure, self.height * 0.2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2 + self.size_figure, self.height * 0.2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                               self.size_figure)]
 
+        i_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure * 2, self.size_figure,
+                               self.size_figure),
+                   pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure * 3, self.size_figure,
+                               self.size_figure)]
+
+        sq_block = [pygame.Rect(self.width // 2, self.height * 0.2, self.size_figure, self.size_figure),
+                    pygame.Rect(self.width // 2 + self.size_figure, self.height * 0.2, self.size_figure,
+                                self.size_figure),
+                    pygame.Rect(self.width // 2, self.height * 0.2 + self.size_figure, self.size_figure,
+                                self.size_figure),
+                    pygame.Rect(self.width // 2 + self.size_figure, self.height * 0.2 + self.size_figure,
+                                self.size_figure,
+                                self.size_figure)]
         figures.append(s_block)
+        figures.append(z_block)
+        figures.append(l_block)
+        figures.append(j_block)
+        figures.append(t_block)
+        figures.append(i_block)
+        figures.append(sq_block)
+
         return figures
