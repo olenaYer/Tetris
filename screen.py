@@ -5,15 +5,15 @@ import random
 class Screen:
 
     def __init__(self, score, line):
-        self.width = 350
-        self.height = 750
+        self.width = 500
+        self.height = 900
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.bg = (18, 18, 19)
         self.border_color = (237, 235, 252)
         self.colors = [(240, 62, 70), (0, 128, 128), (255, 119, 119), (150, 137, 127)]
         self.score = score
         self.line = line
-        self.size_figure = 30
+        self.size_figure = self.width // 10
         self.field_figures = self.init_figures()
         self.figure = random.choice(self.field_figures)
         self.color_figure = random.choice(self.colors)
