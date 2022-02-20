@@ -16,7 +16,6 @@ class Game:
         max_left = figure[0].left
         max_right = figure[0].right
         max_bottom = figure[0].bottom
-        dif_height = 0
         for rect in figure:
 
             if rect.left < max_left:
@@ -65,7 +64,6 @@ class Game:
                         self.left_border = True
                         self.right_border = True
                 print(max_bottom)
-
 
         # keys = pygame.key.get_pressed()
         # if keys[pygame.K_LEFT]:
