@@ -50,14 +50,14 @@ class Game:
                     else:
                         self.right_border = True
             if event == pygame.K_DOWN:
-                if max_bottom > self.height:
+                if max_bottom + self.size_figure> self.height:
                     if rect.bottom == max_bottom:
                         rect.bottom = self.height
                     else:
                         rect.bottom = self.height - self.size_figure
 
                 if not self.bottom_border:
-                    if max_bottom < self.height:
+                    if max_bottom + self.size_figure < self.height:
                         rect.bottom += self.size_figure
                     else:
                         self.bottom_border = True
