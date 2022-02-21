@@ -12,11 +12,12 @@ class Game:
         self.right_border = False
         self.bottom_border = False
 
+        self.figure_is_down = False
+
     def move(self, figure, event=None):
         max_left = figure[0].left
         max_right = figure[0].right
         max_bottom = figure[0].bottom
-        min_bottom = figure[0].bottom
         for rect in figure:
 
             if rect.left < max_left:
@@ -35,6 +36,7 @@ class Game:
                         self.bottom_border = True
                         self.left_border = True
                         self.right_border = True
+                        self.figure_is_down = True
 
             if event == pygame.K_LEFT:
                 if not self.left_border:
@@ -70,12 +72,4 @@ class Game:
                         self.bottom_border = True
                         self.left_border = True
                         self.right_border = True
-                print(figure)
-
-        # keys = pygame.key.get_pressed()
-        # if keys[pygame.K_LEFT]:
-        #     rect.left -= self.size_figure
-        # if keys[pygame.K_RIGHT]:
-        #     rect.right += self.size_figure
-        # if keys[pygame.K_DOWN]:
-        #     rect.top += self.size_figure
+                        self.figure_is_down = True
