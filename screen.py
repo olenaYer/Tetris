@@ -15,14 +15,14 @@ class Screen:
         self.line = line
         self.size_figure = self.width // 10
         self.field_figures = self.init_figures()
-        self.figure = random.choice(self.field_figures)
-        self.color_figure = random.choice(self.colors)
+        self.figures = [random.choice(self.field_figures.copy())]
+        self.color_figures = [random.choice(self.colors)]
 
     def draw(self):
         self.draw_background()
         self.draw_field()
         self.draw_score(self.score, self.line)
-        self.draw_figure()
+        self.draw_figures()
         pygame.display.flip()
 
     def draw_background(self):
@@ -48,9 +48,10 @@ class Screen:
         self.screen.blit(score, score_rect)
         self.screen.blit(line, line_rect)
 
-    def draw_figure(self):
-        for rect in self.figure:
-            pygame.draw.rect(self.screen, self.color_figure, rect)
+    def draw_figures(self):
+        for i in range(len(self.figures)):
+            for j in range(len(self.figures[i])):
+                pygame.draw.rect(self.screen, self.color_figures[i], self.figures[i][j])
 
     def draw_field(self):
         rect = pygame.Rect(0, self.height * 0.2, self.width, self.height * 0.8)

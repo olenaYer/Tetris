@@ -12,6 +12,8 @@ class Game:
         self.right_border = False
         self.bottom_border = False
 
+        self.figure_is_down = False
+
     def move(self, figure, event=None):
         max_left = figure[0].left
         max_right = figure[0].right
@@ -34,6 +36,7 @@ class Game:
                         self.bottom_border = True
                         self.left_border = True
                         self.right_border = True
+                        self.figure_is_down = True
 
             if event == pygame.K_LEFT:
                 if not self.left_border:
@@ -50,25 +53,23 @@ class Game:
                     else:
                         self.right_border = True
             if event == pygame.K_DOWN:
-                if max_bottom + self.size_figure> self.height:
+                if max_bottom + self.size_figure > self.height:
                     if rect.bottom == max_bottom:
                         rect.bottom = self.height
                     else:
-                        rect.bottom = self.height - self.size_figure
+                        if rect.bottom < max_bottom - self.size_figure:
+                            if rect.bottom < max_bottom - self.size_figure * 2:
+                                rect.bottom = self.height - self.size_figure * 3
+                            else:
+                                rect.bottom = self.height - self.size_figure * 2
+                        else:
+                            rect.bottom = self.height - self.size_figure
 
                 if not self.bottom_border:
-                    if max_bottom + self.size_figure < self.height:
+                    if max_bottom + self.size_figure <= self.height:
                         rect.bottom += self.size_figure
                     else:
                         self.bottom_border = True
                         self.left_border = True
                         self.right_border = True
-                print(max_bottom)
-
-        # keys = pygame.key.get_pressed()
-        # if keys[pygame.K_LEFT]:
-        #     rect.left -= self.size_figure
-        # if keys[pygame.K_RIGHT]:
-        #     rect.right += self.size_figure
-        # if keys[pygame.K_DOWN]:
-        #     rect.top += self.size_figure
+                        self.figure_is_down = True
