@@ -16,6 +16,7 @@ class Game:
         max_left = figure[0].left
         max_right = figure[0].right
         max_bottom = figure[0].bottom
+        min_bottom = figure[0].bottom
         for rect in figure:
 
             if rect.left < max_left:
@@ -50,20 +51,26 @@ class Game:
                     else:
                         self.right_border = True
             if event == pygame.K_DOWN:
-                if max_bottom > self.height:
+                if max_bottom + self.size_figure > self.height:
                     if rect.bottom == max_bottom:
                         rect.bottom = self.height
                     else:
-                        rect.bottom = self.height - self.size_figure
+                        if rect.bottom < max_bottom - self.size_figure:
+                            if rect.bottom < max_bottom - self.size_figure * 2:
+                                rect.bottom = self.height - self.size_figure * 3
+                            else:
+                                rect.bottom = self.height - self.size_figure * 2
+                        else:
+                            rect.bottom = self.height - self.size_figure
 
                 if not self.bottom_border:
-                    if max_bottom < self.height:
+                    if max_bottom + self.size_figure <= self.height:
                         rect.bottom += self.size_figure
                     else:
                         self.bottom_border = True
                         self.left_border = True
                         self.right_border = True
-                print(max_bottom)
+                print(figure)
 
         # keys = pygame.key.get_pressed()
         # if keys[pygame.K_LEFT]:
