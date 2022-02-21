@@ -34,7 +34,7 @@ class Main:
                     game.move(figure, event.key)
 
             game.move(figure)
-
+            game.check_collision(figure, screen.figures)
 
 Main()
-# TODO: buttons holding, score, full line reset, collision
+# TODO: buttons holding, score, full line reset, collision, rotation

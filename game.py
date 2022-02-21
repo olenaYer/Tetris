@@ -5,8 +5,8 @@ class Game:
     def __init__(self):
         self.score = 1
         self.line = 1
-        self.width = 500
-        self.height = 900
+        self.width = 400
+        self.height = 700
         self.size_figure = self.width // 10
         self.left_border = False
         self.right_border = False
@@ -14,11 +14,12 @@ class Game:
 
         self.figure_is_down = False
 
-    def move(self, figure, event=None):
+    def move(self, figure, figures, event=None):
+        figure_copy = figure.copy()
         max_left = figure[0].left
         max_right = figure[0].right
         max_bottom = figure[0].bottom
-        for rect in figure:
+        for rect in figure_copy:
 
             if rect.left < max_left:
                 max_left = rect.left
@@ -27,11 +28,11 @@ class Game:
             if rect.bottom > max_bottom:
                 max_bottom = rect.bottom
 
-        for rect in figure:
+        for rect in figure_copy:
             if event is None:
                 if not self.bottom_border:
                     if max_bottom < self.height:
-                        rect.bottom += (self.height * 0.8 - self.size_figure) // 67
+                        rect.bottom += (self.height * 0.8 - self.size_figure) // 52
                     else:
                         self.bottom_border = True
                         self.left_border = True
@@ -53,6 +54,7 @@ class Game:
                     else:
                         self.right_border = True
             if event == pygame.K_DOWN:
+
                 if max_bottom + self.size_figure > self.height:
                     if rect.bottom == max_bottom:
                         rect.bottom = self.height
@@ -68,8 +70,22 @@ class Game:
                 if not self.bottom_border:
                     if max_bottom + self.size_figure <= self.height:
                         rect.bottom += self.size_figure
+                        self.check_collision(figure_copy, figures)
+                        if self.figure_is_down:
+
+
                     else:
                         self.bottom_border = True
                         self.left_border = True
                         self.right_border = True
+                        self.figure_is_down = True
+
+    def check_collision(self, figure, figures):
+        figures_copy = figures.copy()
+        figures_copy.remove(figure)
+
+        for fig in figures_copy:
+            for rect in fig:
+                for r in figure:
+                    if r.bottom == rect.top and r.left == rect.left:
                         self.figure_is_down = True

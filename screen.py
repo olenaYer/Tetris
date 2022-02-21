@@ -5,8 +5,8 @@ import random
 class Screen:
 
     def __init__(self, score, line):
-        self.width = 500
-        self.height = 900
+        self.width = 400
+        self.height = 700
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.bg = (18, 18, 19)
         self.border_color = (237, 235, 252)
