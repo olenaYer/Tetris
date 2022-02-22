@@ -15,8 +15,8 @@ class Screen:
         self.line = line
         self.size_figure = self.width // 10
         self.field_figures = self.init_figures()
-        self.figures = [random.choice(self.field_figures.copy())]
-        self.color_figures = [random.choice(self.colors)]
+        self.figures = [random.choice(self.field_figures.copy()).copy()]
+        self.color_figures = [random.choice(self.colors.copy())]
 
     def draw(self):
         self.draw_background()

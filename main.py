@@ -13,16 +13,18 @@ class Main:
         figure = screen.figures[0]
 
         while True:
+            screen.field_figures = screen.init_figures()
+            screen.draw()
             if game.figure_is_down:
-                figure = random.choice(screen.field_figures)
-                color_figure = random.choice(screen.colors)
+                figure = random.choice(screen.field_figures.copy()).copy()
+                print(figure)
+                color_figure = random.choice(screen.colors.copy())
                 screen.figures.append(figure)
                 screen.color_figures.append(color_figure)
 
                 game.bottom_border, game.left_border, game.right_border = False, False, False
 
                 game.figure_is_down = False
-            screen.draw()
             time.sleep(0.2)
 
             for event in pygame.event.get():
@@ -31,10 +33,11 @@ class Main:
                     break
 
                 if event.type == pygame.KEYUP:
-                    game.move(figure, event.key)
+                    game.move(figure, screen.figures, event.key)
 
-            game.move(figure)
+            game.move(figure, screen.figures)
             game.check_collision(figure, screen.figures)
+
 
 Main()
 # TODO: buttons holding, score, full line reset, collision, rotation

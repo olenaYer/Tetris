@@ -29,6 +29,7 @@ class Game:
                 max_bottom = rect.bottom
 
         for rect in figure_copy:
+            self.check_collision(figure, figures)
             if event is None:
                 if not self.bottom_border:
                     if max_bottom < self.height:
@@ -42,8 +43,10 @@ class Game:
             if event == pygame.K_LEFT:
                 if not self.left_border:
                     if max_left > 0:
-                        rect.left -= self.size_figure
-                        self.right_border = False
+                        self.check_collision(figure, figures)
+                        if not self.figure_is_down:
+                            rect.left -= self.size_figure
+                            self.right_border = False
                     else:
                         self.left_border = True
             if event == pygame.K_RIGHT:
@@ -72,13 +75,17 @@ class Game:
                         rect.bottom += self.size_figure
                         self.check_collision(figure_copy, figures)
                         if self.figure_is_down:
-
+                            self.figure_is_down = False
+                            rect.bottom -= self.size_figure
 
                     else:
                         self.bottom_border = True
                         self.left_border = True
                         self.right_border = True
                         self.figure_is_down = True
+        figure.clear()
+        for rect in figure_copy:
+            figure.append(rect)
 
     def check_collision(self, figure, figures):
         figures_copy = figures.copy()
@@ -87,5 +94,5 @@ class Game:
         for fig in figures_copy:
             for rect in fig:
                 for r in figure:
-                    if r.bottom == rect.top and r.left == rect.left:
+                    if rect.top <= r.bottom < rect.bottom and r.left == rect.left:
                         self.figure_is_down = True
