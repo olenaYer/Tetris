@@ -14,75 +14,65 @@ class Game:
 
         self.figure_is_down = False
 
+        self.max_left = 0
+        self.max_right = 0
+        self.max_bottom = 0
+
     def move(self, figure, figures, event=None):
         figure_copy = figure.copy()
-        max_left = figure[0].left
-        max_right = figure[0].right
-        max_bottom = figure[0].bottom
-        for rect in figure_copy:
+        self.get_max_cords(figure_copy)
 
-            if rect.left < max_left:
-                max_left = rect.left
-            if rect.right > max_right:
-                max_right = rect.right
-            if rect.bottom > max_bottom:
-                max_bottom = rect.bottom
-
-        for rect in figure_copy:
-            self.check_collision(figure, figures)
-            if event is None:
-                if not self.bottom_border:
-                    if max_bottom < self.height:
+        if event is None:
+            if not self.bottom_border:
+                if self.max_bottom < self.height:
+                    for rect in figure_copy:
                         rect.bottom += (self.height * 0.8 - self.size_figure) // 52
-                    else:
-                        self.bottom_border = True
-                        self.left_border = True
-                        self.right_border = True
-                        self.figure_is_down = True
+                else:
+                    self.bottom_border = True
+                    self.left_border = True
+                    self.right_border = True
+                    self.figure_is_down = True
 
-            if event == pygame.K_LEFT:
-                if not self.left_border:
-                    if max_left > 0:
-                        self.check_collision(figure, figures)
-                        if not self.figure_is_down:
-                            rect.left -= self.size_figure
-                            self.right_border = False
-                    else:
-                        self.left_border = True
-            if event == pygame.K_RIGHT:
-                if not self.right_border:
-                    if max_right < self.width:
-                        rect.right += self.size_figure
+        elif event == pygame.K_LEFT:
+            if not self.left_border and not self.bottom_border:
+                if self.max_left > 0:
+                    for rect in figure_copy:
+                        rect.left -= self.size_figure
+                        self.right_border = False
+                    self.check_collision(figure_copy, figures)
+                    if self.figure_is_down:
+                        for rect in figure_copy:
+                            rect.left += self.size_figure
+                        self.figure_is_down = False
+                else:
+                    self.left_border = True
+
+        elif event == pygame.K_RIGHT:
+            if not self.right_border and not self.bottom_border:
+                if self.max_right < self.width:
+                    for rect in figure_copy:
+                        rect.left += self.size_figure
                         self.left_border = False
-                    else:
-                        self.right_border = True
-            if event == pygame.K_DOWN:
+                    self.check_collision(figure_copy, figures)
+                    if self.figure_is_down:
+                        for rect in figure_copy:
+                            rect.left -= self.size_figure
+                        self.figure_is_down = False
+                else:
+                    self.right_border = True
 
-                if max_bottom + self.size_figure > self.height:
-                    if rect.bottom == max_bottom:
-                        rect.bottom = self.height
-                    else:
-                        if rect.bottom < max_bottom - self.size_figure:
-                            if rect.bottom < max_bottom - self.size_figure * 2:
-                                rect.bottom = self.height - self.size_figure * 3
-                            else:
-                                rect.bottom = self.height - self.size_figure * 2
-                        else:
-                            rect.bottom = self.height - self.size_figure
-
-                if not self.bottom_border:
-                    if max_bottom + self.size_figure <= self.height:
+        elif event == pygame.K_DOWN:
+            if not self.bottom_border:
+                if self.max_bottom < self.height:
+                    for rect in figure_copy:
                         rect.bottom += self.size_figure
-                        self.check_collision(figure_copy, figures)
-                        if self.figure_is_down:
-                            self.figure_is_down = False
-                            rect.bottom -= self.size_figure
+                        self.get_max_cords(figure_copy)
 
-                    else:
-                        self.bottom_border = True
-                        self.left_border = True
-                        self.right_border = True
-                        self.figure_is_down = True
+                    self.check_collision(figure_copy, figures)
+                    if self.figure_is_down or self.max_bottom > self.height:
+                        for rect in figure_copy:
+                            rect.bottom -= self.size_figure
+                        self.figure_is_down = False
         figure.clear()
         for rect in figure_copy:
             figure.append(rect)
@@ -94,5 +84,18 @@ class Game:
         for fig in figures_copy:
             for rect in fig:
                 for r in figure:
-                    if rect.top <= r.bottom < rect.bottom and r.left == rect.left:
+                    if rect.top <= r.bottom <= rect.bottom and r.left == rect.left:
                         self.figure_is_down = True
+
+    def get_max_cords(self, figure):
+        self.max_bottom = self.height // 2
+        self.max_left = self.width // 2
+        self.max_right = self.width // 2
+
+        for rect in figure:
+            if rect.left < self.max_left:
+                self.max_left = rect.left
+            if rect.right > self.max_right:
+                self.max_right = rect.right
+            if rect.bottom > self.max_bottom:
+                self.max_bottom = rect.bottom
