@@ -11,12 +11,16 @@ class Main:
         game = Game()
         screen = Screen(game.score, game.line)
         figure = screen.figures[0]
+        game.name = screen.field_figures.index(figure)
+        print(game.name)
 
         while True:
             screen.field_figures = screen.init_figures()
             screen.draw()
             if game.figure_is_down:
                 figure = random.choice(screen.field_figures.copy()).copy()
+                game.name = screen.field_figures.index(figure)
+                game.state = 1
                 print(figure)
                 color_figure = random.choice(screen.colors.copy())
                 screen.figures.append(figure)
@@ -40,4 +44,4 @@ class Main:
 
 
 Main()
-# TODO: buttons holding, score, full line reset, collision, rotation
+# TODO: buttons holding, score, full line reset, rotation
