@@ -78,7 +78,12 @@ class Game:
                             rect.bottom -= self.size_figure
                         self.figure_is_down = False
         elif event == pygame.K_UP:
-            self.rotate(figure)
+            self.rotate(figure_copy)
+            self.check_collision(figure_copy, figures)
+            if self.figure_is_down:
+                for i in range(3):
+                    self.rotate(figure_copy)
+                self.figure_is_down = False
         figure.clear()
         for rect in figure_copy:
             figure.append(rect)
@@ -166,8 +171,6 @@ class Game:
                     figure[0].top -= self.size_figure
                     figure[1].left -= self.size_figure * 2
                     figure[2].top -= self.size_figure * 2
-
-
             elif self.name == 5:
                 for rect in figure:
                     rect.top = figure[1].top
