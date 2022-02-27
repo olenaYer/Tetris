@@ -44,4 +44,4 @@ class Main:
 
 
 Main()
-# TODO: buttons holding, score, full line reset, rotation
+# TODO: buttons holding, score, full line reset, rotation fix with collision
