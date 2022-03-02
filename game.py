@@ -80,10 +80,13 @@ class Game:
         elif event == pygame.K_UP:
             self.rotate(figure_copy)
             self.check_collision(figure_copy, figures)
-            if self.figure_is_down:
+            self.get_max_cords(figure_copy)
+            if self.figure_is_down or self.max_bottom > self.height or self.max_left < 0 or self.max_right > self.width:
                 for i in range(3):
                     self.rotate(figure_copy)
                 self.figure_is_down = False
+                self.left_border = False
+                self.right_border = False
         figure.clear()
         for rect in figure_copy:
             figure.append(rect)
@@ -112,11 +115,14 @@ class Game:
                 self.max_bottom = rect.bottom
 
     def rotate(self, figure):
+        self.left_border = False
+        self.right_border = False
         if self.state == 5:
             self.state = 1
+        print(self.state)
 
         if self.state == 1 or self.state == 3:
-            print(self.name)
+            # print(self.name)
             if self.name == 0:
                 figure[0].left += self.size_figure
                 figure[1].top += self.size_figure
@@ -138,18 +144,19 @@ class Game:
                     figure[2].top -= self.size_figure * 2
                     figure[3].top += self.size_figure
                 else:
+                    figure[0].top += self.size_figure
                     figure[0].left -= self.size_figure * 2
                     figure[1].left -= self.size_figure
-                    figure[1].top -= self.size_figure
                     figure[2].left -= self.size_figure
-                    figure[2].top += self.size_figure
-                    figure[3].top -= self.size_figure * 2
+                    figure[2].top += self.size_figure * 2
+                    figure[3].top -= self.size_figure
             elif self.name == 3:
                 if self.state == 1:
-                    figure[0].top += self.size_figure
+                    figure[0].top += self.size_figure * 2
+                    figure[1].top += self.size_figure
+                    figure[2].top += self.size_figure
                     figure[1].left += self.size_figure
                     figure[2].left -= self.size_figure
-                    figure[3].top -= self.size_figure
                     figure[3].left += self.size_figure * 2
                 else:
                     figure[0].top -= self.size_figure * 2
