@@ -243,3 +243,19 @@ class Game:
                 figure[3].top += self.size_figure * 2
 
         self.state += 1
+
+    def line_reset(self, figures):
+        x, y = 0, self.height
+        for figure in figures:
+            for rect in figure:
+                if rect.left == x and rect.bottom == y:
+                    x += self.size_figure
+        if x == self.width:
+            x = 0
+            print('ready')
+            y -= self.size_figure
+            for i in range(len(figures)):
+                for j in range(len(figures[i])):
+                    rect = figures[i][j]
+                    if rect.left == x and rect.bottom == y:
+                        print(rect)

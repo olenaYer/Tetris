@@ -17,6 +17,7 @@ class Main:
         while True:
             screen.field_figures = screen.init_figures()
             screen.draw()
+            game.line_reset(screen.figures)
             if game.figure_is_down:
                 figure = random.choice(screen.field_figures.copy()).copy()
                 game.name = screen.field_figures.index(figure)
