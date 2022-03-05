@@ -1,4 +1,5 @@
 import pygame
+import copy
 
 
 class Game:
@@ -21,6 +22,9 @@ class Game:
         self.state = 1
 
         self.name = ''
+
+        self.x = 0
+        self.y = self.height
 
     def move(self, figure, figures, event=None):
         figure_copy = figure.copy()
@@ -93,7 +97,10 @@ class Game:
 
     def check_collision(self, figure, figures):
         figures_copy = figures.copy()
-        figures_copy.remove(figure)
+        try:
+            figures_copy.remove(figure)
+        except ValueError:
+            pass
 
         for fig in figures_copy:
             for rect in fig:
@@ -119,7 +126,7 @@ class Game:
         self.right_border = False
         if self.state == 5:
             self.state = 1
-        print(self.state)
+        # print(self.state)
 
         if self.state == 1 or self.state == 3:
             # print(self.name)
@@ -245,17 +252,28 @@ class Game:
         self.state += 1
 
     def line_reset(self, figures):
-        x, y = 0, self.height
+        line_up = False
         for figure in figures:
             for rect in figure:
-                if rect.left == x and rect.bottom == y:
-                    x += self.size_figure
-        if x == self.width:
-            x = 0
-            print('ready')
-            y -= self.size_figure
-            for i in range(len(figures)):
-                for j in range(len(figures[i])):
-                    rect = figures[i][j]
-                    if rect.left == x and rect.bottom == y:
-                        print(rect)
+                if rect.left == self.x and rect.bottom == self.y:
+                    self.x += self.size_figure
+                    if self.x == self.width:
+                        line_up = True
+                        self.x = 0
+                        break
+
+        new_list = []
+        if line_up:
+            for i in range(len(figures) - 1):
+                new_list.append(list(filter(lambda x: x.bottom != self.y, figures[i])))
+
+            # for figure in figures:
+            #     for rect in figure:
+            #         if rect.bottom == self.y:
+            #             try:
+            #                 figures.remove(rect)
+            #             except ValueError:
+            #                 pass
+            figures.clear()
+            for figure in new_list:
+                figures.append(figure)

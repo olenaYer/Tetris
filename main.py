@@ -12,7 +12,7 @@ class Main:
         screen = Screen(game.score, game.line)
         figure = screen.figures[0]
         game.name = screen.field_figures.index(figure)
-        print(game.name)
+        # print(game.name)
 
         while True:
             screen.field_figures = screen.init_figures()
@@ -22,7 +22,7 @@ class Main:
                 figure = random.choice(screen.field_figures.copy()).copy()
                 game.name = screen.field_figures.index(figure)
                 game.state = 1
-                print(figure)
+                # print(figure)
                 color_figure = random.choice(screen.colors.copy())
                 screen.figures.append(figure)
                 screen.color_figures.append(color_figure)
