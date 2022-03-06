@@ -15,6 +15,8 @@ class Main:
         # print(game.name)
 
         while True:
+            screen.score = game.score
+            screen.line = game.line
             screen.field_figures = screen.init_figures()
             screen.draw()
             game.line_reset(screen.figures)
@@ -45,4 +47,4 @@ class Main:
 
 
 Main()
-# TODO: buttons holding, score, full line reset, rotation fix with collision
+# TODO: buttons holding, bugs with line_up and rotation(few figures)

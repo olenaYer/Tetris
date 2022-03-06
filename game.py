@@ -1,11 +1,10 @@
 import pygame
-import copy
 
 
 class Game:
     def __init__(self):
-        self.score = 1
-        self.line = 1
+        self.score = 0
+        self.line = 0
         self.width = 400
         self.height = 700
         self.size_figure = self.width // 10
@@ -23,8 +22,7 @@ class Game:
 
         self.name = ''
 
-        self.x = 0
-        self.y = self.height
+        self.x = [i * 0 for i in range(((self.height + self.size_figure) - int(self.height * 0.2)) // self.size_figure)]
 
     def move(self, figure, figures, event=None):
         figure_copy = figure.copy()
@@ -252,28 +250,32 @@ class Game:
         self.state += 1
 
     def line_reset(self, figures):
-        line_up = False
-        for figure in figures:
-            for rect in figure:
-                if rect.left == self.x and rect.bottom == self.y:
-                    self.x += self.size_figure
-                    if self.x == self.width:
-                        line_up = True
-                        self.x = 0
-                        break
+        y = []
+        for i in range(int(self.height * 0.2), self.height + self.size_figure, self.size_figure):
+            y.append(i)
+
+        line_up = [False, 0]
+        for ys in range(len(y)):
+            for figure in figures:
+                for rect in figure:
+                    if rect.left == self.x[ys] and rect.bottom == y[ys]:
+                        self.x[ys] += self.size_figure
+                        if self.x[ys] == self.width:
+                            line_up = [True, y[ys]]
+                            self.score += 10
+                            self.line += 1
+                            self.x[ys] = 0
+                            break
 
         new_list = []
-        if line_up:
+        if line_up[0]:
             for i in range(len(figures) - 1):
-                new_list.append(list(filter(lambda x: x.bottom != self.y, figures[i])))
-
-            # for figure in figures:
-            #     for rect in figure:
-            #         if rect.bottom == self.y:
-            #             try:
-            #                 figures.remove(rect)
-            #             except ValueError:
-            #                 pass
+                new_list.append(list(filter(lambda x: x.bottom != line_up[1], figures[i])))
+            new_list.append(figures[-1])
+            for figure in new_list:
+                for rect in figure:
+                    if rect.bottom < line_up[1]:
+                        rect.bottom += self.size_figure
             figures.clear()
             for figure in new_list:
                 figures.append(figure)
